@@ -4,19 +4,27 @@ import sys
 
 # Inverte os valores de intensidade da imagem
 def invert(img):
-    for row in img:
-        for pixel in row:
-            intensisy = pixel[0]
-            pixel[:] = 255 - intensisy
-    cv.imshow('Inverted', img)
-    cv.waitKey(0)
-    cv.imwrite('inverted.jpg', img)
-
+    return 255-img
+    
+# Troca os valores de intensidade da imagem nas colunas pares com os valores nas colunas ímpares
 def switch_columns(img):
-    print(2)
+    # Seleciona as colunas pares e ímpares e atribui a even e odd, respectivamente 
+    even = img[:,::2] 
+    odd = img[:,1::2] 
 
+    # Reatribui aos valores das colunas pares os valores das colunas ímpares, e vice-versa
+    img[:,::2] = odd 
+    img[:,1::2] = even
+    return img
+
+# Troca os valores de intensidade da imagem nas linhas pares com os valores nas linhas ímpares
+# Similar a função switch_columns, porém invertendo o índex de linha e coluna
 def switch_rows(img):
-    print(3)
+    even = img[::2,:]
+    odd = img[1::2,:]
+    img[::2,:] = odd
+    img[1::2,:] = even
+    return img
 
 def histogram_stretching(img):
     print(4)
@@ -30,12 +38,26 @@ operation = args.t
 image = args.i
 
 # Abre a imagem em escala de cinza
-img = cv.imread(image)
-if img is None : sys.exit('Could not read the image.')
-else: gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+img_file = cv.imread(image)
+if img_file is None : sys.exit('Could not read the image.')
+else: 
+    gray = cv.cvtColor(img_file, cv.COLOR_BGR2GRAY)
+    cv.imshow('Tons de cinza', gray)
+    cv.waitKey(0)
+    cv.imwrite('cinza.jpg', gray)
 
-if operation == 1: invert(gray)
-elif operation == 2: switch_columns(gray)
-elif operation == 3: switch_rows(gray)
-elif operation == 4: histogram_stretching(gray)
+# Escolhe a opção de transformação
+if operation == 1: 
+    result = invert(gray)
+elif operation == 2: 
+    result = switch_columns(gray)
+elif operation == 3: 
+    result = switch_rows(gray)
+elif operation == 4: 
+    result = histogram_stretching(gray)
 else: print('Invalid option')
+
+# Mostra o resultado e escreve em arquivo
+cv.imshow('Transformação', result)
+cv.waitKey(0)
+cv.imwrite('transformed.jpg', result)
