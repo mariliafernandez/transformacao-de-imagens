@@ -1,6 +1,7 @@
 import argparse
 import cv2 as cv
 import sys
+import numpy as np
 
 # Inverte os valores de intensidade da imagem
 def invert(img):
@@ -27,7 +28,9 @@ def switch_rows(img):
     return img
 
 def histogram_stretching(img):
-    print(4)
+    max_int = np.max(img)
+    min_int = np.min(img)
+    return int(255/(max_int-min_int))*(img-min_int)
     
 # Lê os argumentos passados via terminal
 parser = argparse.ArgumentParser()
