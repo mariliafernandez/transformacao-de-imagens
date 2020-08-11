@@ -4,6 +4,8 @@
 import argparse
 import cv2 as cv
 import numpy as np
+import matplotlib.pyplot as plt
+
 
 # Inverte os valores de intensidade da imagem
 def invert(img):
@@ -18,15 +20,17 @@ def switch_columns(img):
     # Reatribui aos valores das colunas pares os valores das colunas ímpares, e vice-versa
     img[:,::2] = odd 
     img[:,1::2] = even
+
     return img
 
 # Troca os valores de intensidade da imagem nas linhas pares com os valores nas linhas ímpares
-# Similar a função switch_columns, porém invertendo o índex de linha e coluna
+# Similar a função switch_columns, porém invertendo os índex de linha e coluna
 def switch_rows(img):
     even = img[::2,:]
     odd = img[1::2,:]
     img[::2,:] = odd
     img[1::2,:] = even
+
     return img
 
 # Alarga a faixa de contraste da imagem
@@ -35,6 +39,21 @@ def histogram_stretching(img):
     min_int = np.min(img)
     return int(255/(max_int-min_int))*(img-min_int)
     
+# Plota o histograma (distribuição de instensidade da imagem)
+def print_histogram(img):
+    max_int = np.max(img)
+    min_int = np.min(img)
+    frequency = {}
+
+    for i in range(min_int, max_int):
+        frequency[i] = np.sum( img == i ) 
+    
+    axis = sorted( frequency.items() )
+    x, y = zip(*axis)
+    plt.bar(x, y)
+    plt.title('Histograma')
+    plt.show()
+
 # Interpreta os argumentos passados via terminal
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', help='operation', type=int)
@@ -49,9 +68,7 @@ if img_file is None : print('Não foi possível ler a imagem.')
 else: 
     # Converte as cores originais da imagem para tons de cinza e salva a nova imagem em arquivo
     gray = cv.cvtColor(img_file, cv.COLOR_BGR2GRAY)
-    cv.imshow('Tons de cinza', gray)
-    cv.waitKey(0)
-    cv.imwrite('cinza.jpg', gray)
+    cv.imwrite('input_tons_de_cinza.jpg', gray)
 
     # Escolhe a opção de transformação
     if operation == 1: 
