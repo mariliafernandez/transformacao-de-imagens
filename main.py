@@ -56,7 +56,7 @@ def print_histogram(img):
 
 # Interpreta os argumentos passados via terminal
 parser = argparse.ArgumentParser()
-parser.add_argument('-t', help='operation', type=int)
+parser.add_argument('-t', help='operation [1, 2, 3, 4]', type=int)
 parser.add_argument('-i', help='image')
 args = parser.parse_args()
 operation = args.t
