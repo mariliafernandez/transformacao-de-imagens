@@ -1,6 +1,6 @@
 # Processamento de Imagens
 
-### Requisitos
+### Dependências
 - [Python 3](https://www.python.org/download/releases/3.0/)
 - [OpenCV](https://opencv.org/releases/)
 - [Numpy](https://numpy.org/install/)
