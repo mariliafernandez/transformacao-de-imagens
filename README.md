@@ -1,13 +1,11 @@
 # Processamento de Imagens
 
 ### Requisitos
-Para executar o projeto será necessário instalar:
 - [Python 3](https://www.python.org/download/releases/3.0/)
 - [OpenCV](https://opencv.org/releases/)
 - [Numpy](https://numpy.org/install/)
 
-### Build
-Para executar o projeto, utilize o comando:
+### Run
 ```shell
 python3 main.py -t operação -i imagem_entrada
 ```
